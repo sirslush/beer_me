@@ -1,9 +1,21 @@
-const someFunction = () => {
+const someFunction = (idNum) => {
+  const url = "https://api.punkapi.com/v2/beers/" + idNum;
+    const beerList = document.getElementsByClassName('beer__id__list')[0];
+    const newListItem = document.createElement('li');
+    const newListLink = document.createElement('a');
+
+    fetch(url)
+    .then(response => response.json())
+    .then(beers => {
+      const beer = beers[0];
+      newListLink.innerHTML = beer.name;
+
+    });
 
 }
 
 const addBeerToList = function(value){
-  const url = "https://api.punkapi.com/v2/beers/" + value
+  const url = "https://api.punkapi.com/v2/beers/" + value;
     const beerList = document.getElementsByClassName('beer__id__list')[0];
     const newListItem = document.createElement('li');
     const newListLink = document.createElement('a');
@@ -16,7 +28,7 @@ const addBeerToList = function(value){
 
     });
     newListItem.appendChild(newListLink);
-    beerList.appendChild(newListItem);
+    beerList.insertBefore(newListItem, beerList.childNodes[1]);
 };
 
 
