@@ -1,13 +1,9 @@
-const someFunction = (idNum) => {
-  const url = "https://api.punkapi.com/v2/beers/" + idNum;
-
+const someFunction = (url) => {
     fetch(url)
     .then(response => response.json())
     .then(beers => {
       // API returns an array containg only one element: we get it
       const beer = beers[0];
-      alert("function called")
-      
       // Creating DOM element for some beer properties
       const nameElement = document.createElement("h2");
       nameElement.textContent = beer.name;
@@ -27,7 +23,7 @@ const addBeerToList = function(value){
   const url = "https://api.punkapi.com/v2/beers/" + value;
     const beerList = document.getElementsByClassName('beer__id__list')[0];
     const newListItem = document.createElement('li');
-    const newListLink = document.createElement('a');
+    const newListLink = document.createElement('button');
 
     newListItem.classList.add("beer__list__item");
 
@@ -36,7 +32,8 @@ const addBeerToList = function(value){
     .then(beers => {
       const beer = beers[0];
       newListLink.innerHTML = beer.name;
-      newListItem.addEventListener('click', someFunction(beer.id));
+      newListLink.type = 'submit';
+      newListLink.onclick = function () {someFunction(url)};
     });
     newListItem.appendChild(newListLink);
     beerList.insertBefore(newListItem, beerList.childNodes[1]);
