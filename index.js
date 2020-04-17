@@ -23,7 +23,7 @@ const addBeerToList = function(value){
   const url = "https://api.punkapi.com/v2/beers/" + value;
     const beerList = document.getElementsByClassName('beer__id__list')[0];
     const newListItem = document.createElement('li');
-    const newListLink = document.createElement('button');
+    const newListLink = document.createElement('div');
 
     newListItem.classList.add("beer__list__item");
 
@@ -32,8 +32,9 @@ const addBeerToList = function(value){
     .then(beers => {
       const beer = beers[0];
       newListLink.innerHTML = beer.name;
-      newListLink.type = 'submit';
-      newListLink.onclick = function () {someFunction(url)};
+      newListLink.addEventListener("click", function() {
+        someFunction(url);
+    }, false);
     });
     newListItem.appendChild(newListLink);
     beerList.insertBefore(newListItem, beerList.childNodes[1]);
