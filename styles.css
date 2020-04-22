@@ -9,9 +9,14 @@
     float: right;
 }
 
-.beer__info__more__text{
-    border: 1px solid black;
+.more__info__item{
+    display: inline-block;
+    margin: 10px;
 }
+
+table, th, td {
+    border: 1px solid black;
+  }
 
 /* Style the buttons that are used to open and close the accordion panel */
 .beer__info__more {
@@ -35,6 +40,19 @@
   .beer__info__more__text {
     padding: 0 18px;
     background-color: white;
-    display: none;
+    max-height: 0;
     overflow: hidden;
+    transition: max-height 0.2s ease-out;
+  }
+
+  .beer__info__more:after {
+    content: '\02795'; /* Unicode character for "plus" sign (+) */
+    font-size: 13px;
+    color: #777;
+    float: right;
+    margin-left: 5px;
+  }
+  
+  .active:after {
+    content: "\2796"; /* Unicode character for "minus" sign (-) */
   }

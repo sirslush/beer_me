@@ -7,26 +7,32 @@ const beerObj = {
 
 var beerListarr = [];
 
-const fillMoreInfo = function(){
+const fillMoreInfo = function(beer, moreInfoText){
+  moreInfoText.innerHTML = "";
+  const abv = document.createElement('p');
+  abv.className = "more__info__item";
+  abv.innerHTML = "ABV: " + beer.abv;
+  const ibu = document.createElement('p');
+  ibu.className = "more__info__item";
+  ibu.innerHTML = "IBU: " + beer.ibu;
   
+  moreInfoText.appendChild(abv);
+  moreInfoText.appendChild(ibu);
 }
 
 var acc = document.getElementsByClassName("beer__info__more");
 var i;
 
+
 for (i = 0; i < acc.length; i++) {
   acc[i].addEventListener("click", function() {
-    /* Toggle between adding and removing the "active" class,
-    to highlight the button that controls the panel */
     this.classList.toggle("active");
-
-    /* Toggle between hiding and showing the active panel */
     var panel = this.nextElementSibling;
-    if (panel.style.display === "block") {
-      panel.style.display = "none";
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
     } else {
-      panel.style.display = "block";
-    }
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    } 
   });
 }
 
@@ -42,9 +48,6 @@ const showMoreInfo = function(){
       .then(beers => {
       // API returns an array containg only one element: we get it
       const beer = beers[0];
-      const moreInfoText = document.getElementsByClassName('beer__info__more__text')[0];
-      moreInfoText.innerHTML = "emote: Counting objects: 100% (7/7), done.";
-      fillMoreInfo();
     });
     }
   }   
@@ -74,6 +77,8 @@ const showBeerInfo = (beer) =>{
   // beerElement.appendChild(beerImg);  Img data not accurate and will be implimented later
   const moreInfoButton = document.getElementsByClassName('beer__info__more')[0];
   moreInfoButton.style.display = "block"; // disable show more
+  const moreInfoText = document.getElementsByClassName('beer__info__more__text')[0];
+  fillMoreInfo(beer, moreInfoText);
 }
 
 const showBeerInfoFromList = (url) => {
@@ -91,7 +96,6 @@ const addBeerToList = function(value){
   const url = "https://api.punkapi.com/v2/beers/" + value;
     const beerList = document.getElementsByClassName('beer__list__items')[0];
     const newListItem = document.createElement('li');
-    const newListLink = document.createElement('div');
 
     newListItem.classList.add("beer__list__item");
 
@@ -99,12 +103,11 @@ const addBeerToList = function(value){
     .then(response => response.json())
     .then(beers => {
       const beer = beers[0];
-      newListLink.innerHTML = beer.name;
-      newListLink.addEventListener("click", function() {
+      newListItem.innerHTML = beer.name;
+      newListItem.addEventListener("click", function() {
         showBeerInfoFromList(url);
     }, false);
     });
-    newListItem.appendChild(newListLink);
     beerList.insertBefore(newListItem, beerList.childNodes[1]);
 };
 
